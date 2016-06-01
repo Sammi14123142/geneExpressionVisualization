@@ -1,3 +1,4 @@
+source('~/geneExpressionVisualization/helper.R')
 
 shinyServer(function(input, output){
   output$Cluster <- renderPlot({
@@ -18,4 +19,4 @@ shinyServer(function(input, output){
     plot(silhouette(ct, dm))
   })
 }
-})
+)

@@ -1,9 +1,9 @@
 load("data/geneExpression.rda")
 
-source("https://bioconductor.org/biocLite.R")
-biocLite(c("Biobase","hgu133a.db"))
-library(Biobase)
-library(hgu133a.db)
+#source("https://bioconductor.org/biocLite.R")
+#biocLite(c("Biobase","hgu133a.db"))
+#library(Biobase)
+#library(hgu133a.db)
 
 expression <- ExpressionSet(e)
 annotation(expression) <- "hgu133a.db"
@@ -19,3 +19,7 @@ cmeths = c("ward.D", "ward.D2",
            "median", "centroid")
 dmeths = c("euclidean", "maximum", "manhattan", "canberra",
            "binary")
+
+emat = t(exprs(expression))
+rownames(emat) = sampleNames(expression)
+df = data.frame(emat)
