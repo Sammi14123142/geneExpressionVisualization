@@ -1,21 +1,14 @@
 library(shiny)
-load("~/khan/khan.RData")
+load("~/k/khan.RData")
 
 shinyUI(
   navbarPage("Interactive Multivariate Visualization of Khan (2012) Gene Expression Data",
-             tabPanel("Data Input",
-                      sidebarPanel
-                      (
-                        #data upload
-                        fileInput("files", "Choose File", multiple=TRUE)), 
-                        
+             tabPanel("DataInput",
                       mainPanel(
                         h3(textOutput('caption')),
                         tabsetPanel(
                           tabPanel("Data",tableOutput("filetable"))
-                        ))
-                      
-                      ),
+                        ))),
              
              tabPanel(
                "Clustering",
@@ -49,7 +42,8 @@ shinyUI(
                    
                  )
                )
-               ),
+             ),
+             
              tabPanel("Principal Component Analysis",
                       headerPanel("Select Options"),
                       # h2("Principal Components Analysis (PCA)")
@@ -65,7 +59,7 @@ shinyUI(
                         selectInput("scaling","Scale", 
                                     list(none = "none", "unit variance" = "uv", pareto = "pareto"),
                                     selected="none"
-                        ),	
+                        ),  
                         
                         selectInput("method","Method", 
                                     choices=c("svd"="svd",
@@ -83,7 +77,7 @@ shinyUI(
                         selectInput("cv","cross-validation",
                                     list (none = "none", Q2 =  "q2")
                         )
-                        #helpText("Hints"),	
+                        #helpText("Hints"),  
                       ),
                       
                       # uiOutput("variable"), 	# depends on dataset ( set by output$variable in  server.R)
@@ -95,7 +89,7 @@ shinyUI(
                       
                       # output				
                       mainPanel(
-                      
+                        
                         tabsetPanel(
                           
                           tabPanel("Scree Plot",plotOutput("screeplot",height = 280*2, width = 250*2)),
@@ -104,24 +98,25 @@ shinyUI(
                         )
                         
                       )),
-             
              tabPanel("Regression Analysis",
                       headerPanel("Select Options"),
                       sidebarPanel(
-                        
-                        uiOutput("PCs"),
-                        checkboxInput("center","Center",TRUE)
-                        
-                        ),
+                        fluidRow(
+                          checkboxGroupInput("vars", NULL, choices=nms,
+                                             selected=nms[1:2]))
+                      ),
                       mainPanel(
-                        h3(textOutput('caption')),
                         tabsetPanel(
                           tabPanel("Residual Plots", tableOutput("ResidualPlots")),
                           tabPanel("Summary Statistics", tableOutput("SummaryStat")),
                           tabPanel("Correlation Analysis", tableOutput("CorrAnalysis")),
                           tabPanel("Predicted Values", tableOutput("PredVal"))
                         )
+                        
                       )
-                      )))
+                      
+             )
+             
+  )
+)
 
-  
